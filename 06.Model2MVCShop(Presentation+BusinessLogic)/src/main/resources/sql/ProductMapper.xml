@@ -28,7 +28,7 @@
  	<!-- SQL : SELECT ONE -->
 	<select id="getProduct"		parameterType="int"  resultMap="productSelectMap">
 		SELECT 
-		prod_no , prod_name , PROD_DETAIL , manufacture_day , price , image_file , reg_date
+		prod_no , prod_name , prod_detail , manufacture_day , price , image_file , reg_date
 		FROM product
 		WHERE prod_no = #{value}
 	</select>
@@ -50,7 +50,7 @@
 	<select  id="getProductList"  parameterType="search"	resultMap="productSelectMap">
 	  	SELECT *
 	  	FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT p.prod_name, p.price, p.reg_date, t.tran_status_code
+	  					FROM		(	SELECT p.prod_no, p.prod_name, p.price, p.reg_date, t.tran_status_code
 											FROM product p, transaction t
 											WHERE p.prod_no = t.prod_no(+)
 											

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.model2.mvc.common.Page;
 import com.model2.mvc.common.Search;
 import com.model2.mvc.service.domain.Product;
+import com.model2.mvc.service.domain.User;
 import com.model2.mvc.service.product.ProductService;
 
 
@@ -87,101 +88,60 @@ public class ProductController {
 		model.addAttribute("resultPage", resultPage);
 		model.addAttribute("search", search);
 		
-		System.out.println(request.getParameter("menu"));
-		System.out.println("=====================");
-		if (request.getParameter("menu") == "manage") {
-			model.addAttribute("menu", "판매상품관리");
-		}else {
-			model.addAttribute("menu", "상품검색");
+		if ( ( request.getParameter("menu") ).equals("manage") ) {
+			model.addAttribute("menuName", "판매상품관리");
+		}else{
+			model.addAttribute("menuName", "상품검색");
 		}
+		
+		model.addAttribute("menu", request.getParameter("menu"));
 		
 		return "forward:/product/listProduct.jsp";
 	}
-	/*
+	
+	@RequestMapping("/updateProductView.do")
+	public String updateUserView( @RequestParam("prodNo") int prodNo , 
+									Model model ) throws Exception{
+
+		System.out.println("/updateProductView.do");
+		//Business Logic
+		
+		Product product = productService.getProduct(prodNo);
+		
+		// Model 과 View 연결
+		model.addAttribute("product", product);
+		
+		return "forward:/product/updateProductView.jsp";
+	}
+	
+	//수정중
+	@RequestMapping("/updateProduct.do")
+	public String updateProduct( @ModelAttribute("product") Product product , 
+								Model model , HttpSession session) throws Exception{
+
+		System.out.println("/updateProduct.do 실행!!!");
+		//Business Logic
+		productService.updateProduct(product);
+		
+		//String prodNo = Integer.toString(product.getProdNo());
+		
+		model.addAttribute("product", product);
+		
+		return "redirect:/getProduct.do?prodNo="+product.getProdNo();
+		//foward로 보내면 String[]로 간다. 그 이유 고민
+	}
+	
+
 	@RequestMapping("/getProduct.do")
-	public String getUser( @RequestParam("userId") String userId , Model model ) throws Exception {
+	public String getProduct( @RequestParam("prodNo") int prodNo , Model model ) throws Exception {
 		
-		System.out.println("/getUser.do");
+		System.out.println("/getProduct.do 실행");
 		//Business Logic
-		User user = userService.getUser(userId);
+
+		Product product = productService.getProduct(prodNo);
 		// Model 과 View 연결
-		model.addAttribute("user", user);
+		model.addAttribute("product", product);
 		
-		return "forward:/user/getUser.jsp";
+		return "forward:/product/getProduct.jsp";
 	}
-	
-	@RequestMapping("/updateUserView.do")
-	public String updateUserView( @RequestParam("userId") String userId , Model model ) throws Exception{
-
-		System.out.println("/updateUserView.do");
-		//Business Logic
-		User user = userService.getUser(userId);
-		// Model 과 View 연결
-		model.addAttribute("user", user);
-		
-		return "forward:/user/updateUser.jsp";
-	}
-	
-	@RequestMapping("/updateUser.do")
-	public String updateUser( @ModelAttribute("user") User user , Model model , HttpSession session) throws Exception{
-
-		System.out.println("/updateUser.do");
-		//Business Logic
-		userService.updateUser(user);
-		
-		String sessionId=((User)session.getAttribute("user")).getUserId();
-		if(sessionId.equals(user.getUserId())){
-			session.setAttribute("user", user);
-		}
-		
-		return "redirect:/getUser.do?userId="+user.getUserId();
-	}
-	
-	@RequestMapping("/loginView.do")
-	public String loginView() throws Exception{
-		
-		System.out.println("/loginView.do");
-
-		return "redirect:/user/loginView.jsp";
-	}
-	
-	@RequestMapping("/login.do")
-	public String login(@ModelAttribute("user") User user , HttpSession session ) throws Exception{
-		
-		System.out.println("/login.do");
-		//Business Logic
-		User dbUser=userService.getUser(user.getUserId());
-		
-		if( user.getPassword().equals(dbUser.getPassword())){
-			session.setAttribute("user", dbUser);
-		}
-		
-		return "redirect:/index.jsp";
-	}
-	
-	@RequestMapping("/logout.do")
-	public String logout(HttpSession session ) throws Exception{
-		
-		System.out.println("/logout.do");
-		
-		session.invalidate();
-		
-		return "redirect:/index.jsp";
-	}
-	
-	@RequestMapping("/checkDuplication.do")
-	public String checkDuplication( @RequestParam("userId") String userId , Model model ) throws Exception{
-		
-		System.out.println("/checkDuplication.do");
-		//Business Logic
-		boolean result=userService.checkDuplication(userId);
-		// Model 과 View 연결
-		model.addAttribute("result", new Boolean(result));
-		model.addAttribute("userId", userId);
-
-		return "forward:/user/checkDuplication.jsp";
-	}
-	
-	
-	*/
 }

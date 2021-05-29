@@ -3,34 +3,6 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     
-<%--@ page import="java.util.*"--%>
-<%--@ page import="com.model2.mvc.service.domain.Product" --%>
-<%--@ page import="com.model2.mvc.common.*"--%>    
-    
-<%--
-	Map<String,Object> map=(Map<String,Object>)request.getAttribute("list");
-	Search search=(Search)request.getAttribute("search");
-	String menu=(String)request.getAttribute("menu");
-	
-	int total=0;
-	ArrayList<Product> list=null;
-	if(map != null){
-		total=((Integer)map.get("count")).intValue();
-		list=(ArrayList<Product>)map.get("list");
-	}
-	
-	int currentPage=search.getCurrentPage();
-	String searchCondition = search.getSearchCondition();
-	String searchKeyword = search.getSearchKeyword();
-	
-	int totalPage=0;
-	if(total > 0) {
-		totalPage= total / search.getPageSize() ;
-		if(total%search.getPageSize() >0)
-			totalPage += 1;
-	}
---%>
-
 
 
 <html>
@@ -65,7 +37,7 @@ function fncGetProductList(currentPage) {
 				<tr>
 					<td width="93%" class="ct_ttl01">
 									
-						${menu }
+						${menuName}
 						
 					</td>
 				</tr>

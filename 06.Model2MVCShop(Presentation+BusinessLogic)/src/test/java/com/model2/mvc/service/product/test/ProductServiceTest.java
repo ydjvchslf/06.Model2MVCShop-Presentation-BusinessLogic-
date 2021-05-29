@@ -69,16 +69,16 @@ public class ProductServiceTest {
 		
 		Product product = new Product();
 		
-		product = productService.getProduct(10102);
+		product = productService.getProduct(10130);
 
 		//==> console 확인
 		System.out.println(product);
 		
-		Assert.assertEquals("testProdName", product.getProdName());
-		Assert.assertEquals("testProdDetail", product.getProdDetail());
-		Assert.assertEquals("Manu", product.getManuDate());
-		Assert.assertEquals(9999, product.getPrice());
-		Assert.assertEquals("testProdFileName", product.getFileName());
+		Assert.assertEquals("aaa", product.getProdName());
+		Assert.assertEquals("bbb", product.getProdDetail());
+		//Assert.assertEquals("Manu", product.getManuDate());
+		Assert.assertEquals(8, product.getPrice());
+		//Assert.assertEquals("testProdFileName", product.getFileName());
 		
 	}
 	
@@ -116,7 +116,7 @@ public class ProductServiceTest {
 	 
 	 	
 	 //==>  주석을 풀고 실행하면....
-	 //@Test
+	 @Test
 	 public void testGetProductListAll() throws Exception{
 		 
 	 	Search search = new Search();
@@ -128,7 +128,7 @@ public class ProductServiceTest {
 	 	Assert.assertEquals(3, list.size());
 	 	
 		//==> console 확인
-	 	//System.out.println(list);
+	 	System.out.println(list);
 	 	
 	 	Integer totalCount = (Integer)map.get("totalCount");
 	 	System.out.println(totalCount);
