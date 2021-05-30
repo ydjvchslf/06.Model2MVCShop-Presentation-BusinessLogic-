@@ -113,8 +113,7 @@ public class ProductController {
 		
 		return "forward:/product/updateProductView.jsp";
 	}
-	
-	//수정중
+
 	@RequestMapping("/updateProduct.do")
 	public String updateProduct( @ModelAttribute("product") Product product , 
 								Model model , HttpSession session) throws Exception{
@@ -128,7 +127,8 @@ public class ProductController {
 		model.addAttribute("product", product);
 		
 		return "redirect:/getProduct.do?prodNo="+product.getProdNo();
-		//foward로 보내면 String[]로 간다. 그 이유 고민
+		// foward로 보내면 String[]로 간다. "10001, 10001" 그 이유 고민
+		// ==> 이유 알아냄.. 계속 forward로 넘어왔기 때문에 URL 정보가 안바뀜, prodNo=10001 이 두번 들어가게 됨
 	}
 	
 
